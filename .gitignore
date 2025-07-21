@@ -1,0 +1,52 @@
+# ========== Unity ========== #
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+.sysinfo/
+
+# ========== Visual Studio / JetBrains Rider ========== #
+.vscode/
+.idea/
+*.csproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.unityproj
+*.pidb
+*.booproj
+*.svd
+
+# ========== OS-specific ========== #
+.DS_Store
+Thumbs.db
+
+# ========== Unity Cache / Other ========== #
+*.apk
+*.aab
+*.unitypackage
+*.log
+*.tmp
+
+# ========== Auto-generated meta or crash data ========== #
+*.mdb
+*.pdb
+*.bak
+*.old
+*.orig
+
+# ========== Crash / Build Reports ========== #
+sysinfo.txt
+error.log
+
+# ========== Git metadata ========== #
+.git/
+.gitattributes
+
+# Uncomment if using Addressables
+#Assets/AddressableAssetsData/*.bin
+Library/
