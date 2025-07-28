@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Health : MonoBehaviour
+public class HealthSystem : MonoBehaviour
 {
     public float maxHealth = 100f;
     public float currentHealth;
-    public float defensePercentage = 0.2f; // 20% damage reduction
+
+    public float defensePercentage = 0f; // 0-100% reduction
 
     void Start()
     {
@@ -15,25 +16,22 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float damageAmount)
     {
-        float effectiveDamage = damageAmount * (1 - defensePercentage);
+        // Calculate effective damage after defense
+        float effectiveDamage = damageAmount * (1f - (defensePercentage / 100f));
         currentHealth -= effectiveDamage;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
         if (currentHealth <= 0)
         {
             Die();
         }
-    }
 
-    public void Heal(float healAmount)
-    {
-        currentHealth += healAmount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        Debug.Log(gameObject.name + " took " + effectiveDamage + " damage. Remaining health: " + currentHealth);
     }
 
     void Die()
     {
-        Debug.Log(gameObject.name + " has died!");
-        Destroy(gameObject);
+        // Implement death logic (e.g., disable object, play death animation, etc.)
+        Debug.Log(gameObject.name + " died!");
+        Destroy(gameObject); // Example: Destroy the GameObject upon death
     }
 }

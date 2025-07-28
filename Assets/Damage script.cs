@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DamageDealer : MonoBehaviour
+public class AttackSystem : MonoBehaviour
 {
-    public float damageAmount = 10f;
+    public float attackDamage = 10f; // Damage dealt by this attacker
 
-    void OnTriggerEnter2D(Collider2D other)
+    public void Attack(GameObject target)
     {
-        Health healthComponent = other.GetComponent<Health>();
-        if (healthComponent != null)
+        HealthSystem targetHealth = target.GetComponent<HealthSystem>();
+        if (targetHealth != null)
         {
-            healthComponent.TakeDamage(damageAmount);
-            Destroy(gameObject); // Destroy projectile after hitting
+            targetHealth.TakeDamage(attackDamage);
+            Debug.Log(gameObject.name + " attacked " + target.name + " for " + attackDamage + " damage.");
         }
     }
 }

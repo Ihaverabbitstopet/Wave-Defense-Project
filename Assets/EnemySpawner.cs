@@ -2,40 +2,65 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spawner : MonoBehaviour
+public class WaveSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject enemyPrefab;
-    [SerializeField] private float sizeX = 1f;
-    [SerializeField] private float sizeY = 1f;
-    [SerializeField] private float cooldownTimer = 1f;
+    public GameObject enemyPrefab;
+    public int minEnemiesPerBurst = 3;
+    public int maxEnemiesPerBurst = 7;
+    public float minTimeBetweenBursts = 1f;
+    public float maxTimeBetweenBursts = 3f;
+    public float spawnRadius = 5f;
+    public int maxEnemiesInRadius = 20;
+    public float timeBetweenWaves = 5f; // Time between waves
+    public int maxWaves = 3;  // Number of waves
 
-    private float spawnTime;
+    private int currentWave = 0;
+    private int enemiesInRadius = 0;
+    private float nextWaveTime;
 
-    private void Start()
+    void Start()
     {
-        spawnTime = cooldownTimer;
+        nextWaveTime = Time.time + timeBetweenWaves;
     }
 
-    private void Update()
+    void Update()
     {
-        if (spawnTime > 0)
+        if (Time.time >= nextWaveTime && currentWave < maxWaves)
         {
-            spawnTime -= Time.deltaTime;
-        }
-
-        if (spawnTime <= 0)
-        {
-            Spawn();
-            spawnTime = cooldownTimer;
+            StartCoroutine(SpawnWave());
+            currentWave++;
+            nextWaveTime = Time.time + timeBetweenWaves;
         }
     }
 
-    void Spawn()
+    IEnumerator SpawnWave()
     {
-        float xPos = Random.Range(-sizeX, sizeX) + transform.position.x;
-        float yPos = Random.Range(-sizeY, sizeY) + transform.position.y;
+        enemiesInRadius = 0;
+        int enemiesToSpawn = Random.Range(minEnemiesPerBurst, maxEnemiesPerBurst + 1);
+        for (int i = 0; i < enemiesToSpawn; i++)
+        {
+            if (enemiesInRadius < maxEnemiesInRadius)
+            {
+                SpawnEnemy();
+                enemiesInRadius++;
+            }
+            else
+            {
+                break; // Stop spawning if max is reached
+            }
+            yield return new WaitForSeconds(Random.Range(minTimeBetweenBursts, maxTimeBetweenBursts));
+        }
+    }
 
-        Vector3 spawnPosition = new Vector3(xPos, yPos, 0);
+    void SpawnEnemy()
+    {
+        Vector2 spawnPosition = (Vector2)transform.position + Random.insideUnitCircle * spawnRadius;
         Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
     }
+    
+    public void EnemyDefeated()
+    {
+        enemiesInRadius--;
+    }
+
 }
