@@ -5,23 +5,20 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Movement")]
     public float moveSpeed = 5f;
-    private Vector2 moveInput;
+    public GameObject attackHitbox;
+    public Transform playerVisual;
 
-    [Header("References")]
-    public GameObject attackHitbox;        // Assign AttackHitbox here
-    public Transform playerVisual;         // Assign PlayerVisual here
     private Rigidbody2D rb;
     private Animator animator;
-
+    private Vector2 moveInput;
+    private bool isAttacking = false;
     private PlayerControls controls;
-    private bool isAttacking;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = playerVisual.GetComponent<Animator>();
+        animator = GetComponent<Animator>();
         controls = new PlayerControls();
     }
 
@@ -41,15 +38,13 @@ public class PlayerMovement : MonoBehaviour
     {
         moveInput = controls.Player.Move.ReadValue<Vector2>();
 
-        // Flip based on mouse position
-        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        // Flip toward mouse
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         Vector3 scale = transform.localScale;
-        scale.x = (mouseWorldPos.x < transform.position.x) ? -1f : 1f;
+        scale.x = mousePos.x < transform.position.x ? -1f : 1f;
         transform.localScale = scale;
 
-        // Set animation speed
-        float speed = moveInput.magnitude;
-        animator.SetFloat("Speed", speed);
+        animator.SetFloat("Speed", moveInput.magnitude);
     }
 
     void FixedUpdate()
@@ -70,13 +65,12 @@ public class PlayerMovement : MonoBehaviour
     {
         isAttacking = true;
         animator.SetTrigger("Attack");
-        yield return new WaitForSeconds(0.5f); // Adjust to match animation length
+        yield return new WaitForSeconds(0.5f); // match animation
         isAttacking = false;
     }
 
-    // Called from animation events
+    // Called by animation events
     public void EnableHitbox() => attackHitbox.SetActive(true);
     public void DisableHitbox() => attackHitbox.SetActive(false);
 }
-
 

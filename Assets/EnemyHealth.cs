@@ -15,17 +15,13 @@ public class EnemyHealth : MonoBehaviour
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;
-        Debug.Log($"{gameObject.name} took {amount} damage. Remaining HP: {currentHealth}");
-
+        Debug.Log($"{gameObject.name} took damage. HP: {currentHealth}");
         if (currentHealth <= 0)
-        {
             Die();
-        }
     }
 
-    private void Die()
+    void Die()
     {
-        // Optional: play death animation
         Destroy(gameObject);
     }
 }
