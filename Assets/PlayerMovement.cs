@@ -5,72 +5,79 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-    public GameObject attackHitbox;
-    public Transform playerVisual;
+    [Header("Movement Settings")]
+    [SerializeField] private float moveSpeed = 5f;
+
+    [Header("References")]
+    [SerializeField] private GameObject playerVisual;
+    [SerializeField] private Animator playerAnimator;
+    [SerializeField] private Animator axeAnimator;
+    [SerializeField] private GameObject attackHitbox;
 
     private Rigidbody2D rb;
-    private Animator animator;
     private Vector2 moveInput;
-    private bool isAttacking = false;
+
+    private Camera mainCamera;
     private PlayerControls controls;
 
-    void Awake()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        mainCamera = Camera.main;
+
+        // Set up the new Input System
         controls = new PlayerControls();
+        controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
+        controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
+
+        controls.Player.Attack.performed += ctx => Attack();
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         controls.Enable();
-        controls.Player.Attack.performed += ctx => HandleAttack();
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
-        controls.Player.Attack.performed -= ctx => HandleAttack();
         controls.Disable();
     }
 
-    void Update()
+    private void Update()
     {
-        moveInput = controls.Player.Move.ReadValue<Vector2>();
-
-        // Flip toward mouse
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        Vector3 scale = transform.localScale;
-        scale.x = mousePos.x < transform.position.x ? -1f : 1f;
-        transform.localScale = scale;
-
-        animator.SetFloat("Speed", moveInput.magnitude);
+        HandleFlip();
+        UpdateAnimations();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        if (!isAttacking)
+        rb.velocity = moveInput * moveSpeed;
+    }
+
+    private void HandleFlip()
+    {
+        Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        float direction = mouseWorldPos.x - transform.position.x;
+
+        Vector3 localScale = transform.localScale;
+        localScale.x = direction >= 0 ? Mathf.Abs(localScale.x) : -Mathf.Abs(localScale.x);
+        transform.localScale = localScale;
+    }
+
+    private void UpdateAnimations()
+    {
+        float speed = moveInput.sqrMagnitude;
+        playerAnimator.SetFloat("Speed", speed);
+    }
+
+    private void Attack()
+    {
+        if (axeAnimator != null)
         {
-            rb.MovePosition(rb.position + moveInput * moveSpeed * Time.fixedDeltaTime);
+            axeAnimator.SetTrigger("Swing");
         }
-    }
 
-    private void HandleAttack()
-    {
-        if (!isAttacking)
-            StartCoroutine(PerformAttack());
+        // Optional: activate attack hitbox here if needed
+        // e.g., attackHitbox.SetActive(true);
     }
-
-    private System.Collections.IEnumerator PerformAttack()
-    {
-        isAttacking = true;
-        animator.SetTrigger("Attack");
-        yield return new WaitForSeconds(0.5f); // match animation
-        isAttacking = false;
-    }
-
-    // Called by animation events
-    public void EnableHitbox() => attackHitbox.SetActive(true);
-    public void DisableHitbox() => attackHitbox.SetActive(false);
 }
-

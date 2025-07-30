@@ -4,11 +4,22 @@ using UnityEngine;
 
 public class AttackHitbox : MonoBehaviour
 {
+    private WeaponDamage weaponDamage;
+
+    private void Awake()
+    {
+        weaponDamage = GetComponentInParent<WeaponDamage>();
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Enemy"))
+        EnemyHealth enemy = other.GetComponent<EnemyHealth>();
+        if (enemy != null && weaponDamage != null)
         {
-            other.GetComponent<EnemyHealth>()?.TakeDamage(1);
+            float baseDamage = weaponDamage.GetDamage();
+            bool ignoreDefense = weaponDamage.IgnoresDefense();
+
+            enemy.TakeDamage(baseDamage, ignoreDefense);
         }
     }
 }

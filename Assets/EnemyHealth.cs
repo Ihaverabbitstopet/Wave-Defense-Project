@@ -4,24 +4,33 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public int maxHealth = 3;
-    private int currentHealth;
+    [Header("Enemy Stats")]
+    [SerializeField] private float maxHealth = 100f;
+    [SerializeField, Range(0f, 1f)] private float defense = 0.2f; // 20% reduction
 
-    void Start()
+    private float currentHealth;
+
+    private void Awake()
     {
         currentHealth = maxHealth;
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(float rawDamage, bool ignoreDefense = false)
     {
-        currentHealth -= amount;
-        Debug.Log($"{gameObject.name} took damage. HP: {currentHealth}");
+        float damageTaken = ignoreDefense ? rawDamage : rawDamage * (1f - defense);
+        currentHealth -= damageTaken;
+
+        Debug.Log($"{gameObject.name} took {damageTaken} damage! HP left: {currentHealth}");
+
         if (currentHealth <= 0)
+        {
             Die();
+        }
     }
 
-    void Die()
+    private void Die()
     {
+        Debug.Log($"{gameObject.name} died!");
         Destroy(gameObject);
     }
 }
