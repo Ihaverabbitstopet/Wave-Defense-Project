@@ -8,9 +8,7 @@ public class KnightMovement : MonoBehaviour
 
     [Header("References")]
     public Transform knightVisual;
-    public Transform dagger;
     public Animator animator;
-    public Animator daggerAnimator;
     public Transform player;
 
     [Header("Movement")]
@@ -30,9 +28,6 @@ public class KnightMovement : MonoBehaviour
     private KnightState currentState = KnightState.Patrolling;
     private float waitTimer;
     private Vector2 targetPoint;
-
-    // Track last facing direction to detect flips
-    private int lastFacingDirection = 1;
 
     private void Awake()
     {
@@ -131,38 +126,10 @@ public class KnightMovement : MonoBehaviour
 
         if (Mathf.Abs(direction.x) > 0.01f)
         {
-            Vector3 scale = knightVisual.localScale;
+            // Flip the whole Knight GameObject on X axis
+            Vector3 scale = transform.localScale;
             scale.x = direction.x > 0 ? 1 : -1;
-            knightVisual.localScale = scale;
-
-            bool facingRight = scale.x > 0;
-
-            if (daggerAnimator != null)
-            {
-                daggerAnimator.SetBool("Flip", !facingRight);
-            }
-            else if (dagger != null)
-            {
-                // Flip dagger scale
-                Vector3 daggerScale = dagger.localScale;
-                daggerScale.x = scale.x;
-                dagger.localScale = daggerScale;
-
-                // Flip dagger localPosition.x when facing direction changes
-                int currentFacing = scale.x > 0 ? 1 : -1;
-                if (currentFacing != lastFacingDirection)
-                {
-                    Vector3 daggerPos = dagger.localPosition;
-                    daggerPos.x = -daggerPos.x;
-                    dagger.localPosition = daggerPos;
-                    lastFacingDirection = currentFacing;
-                }
-            }
-            else
-            {
-                // Update lastFacingDirection even if no dagger (to keep consistent)
-                lastFacingDirection = scale.x > 0 ? 1 : -1;
-            }
+            transform.localScale = scale;
         }
     }
 }
