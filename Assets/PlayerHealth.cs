@@ -18,6 +18,7 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+        Debug.Log("Player Health Initialized. HP: " + currentHealth);
     }
 
     public void TakeDamage(int damageAmount, bool ignoresDefense = false)
@@ -27,10 +28,15 @@ public class PlayerHealth : MonoBehaviour
         if (!ignoresDefense)
         {
             finalDamage = Mathf.RoundToInt(damageAmount * (1f - defensePercent / 100f));
+            Debug.Log($"Player took {finalDamage} damage (defense reduced by {defensePercent}%).");
+        }
+        else
+        {
+            Debug.Log($"Player took {finalDamage} raw damage (defense ignored).");
         }
 
         currentHealth -= finalDamage;
-        Debug.Log("Player took " + finalDamage + " damage. Current HP: " + currentHealth);
+        Debug.Log("Current Player HP: " + currentHealth);
 
         if (currentHealth <= 0)
         {
@@ -45,7 +51,8 @@ public class PlayerHealth : MonoBehaviour
         if (deathEffect)
             Instantiate(deathEffect, transform.position, Quaternion.identity);
 
-        gameObject.SetActive(false); // Or trigger Game Over logic
+        // Disable the player object or trigger a Game Over screen
+        gameObject.SetActive(false);
     }
 
     public int GetCurrentHealth() => currentHealth;
