@@ -173,15 +173,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knightVisual: {fileID: 1879475996}
+  dagger: {fileID: 522330941}
   animator: {fileID: 1879475997}
+  daggerAnimator: {fileID: 0}
   player: {fileID: 1570990000}
   moveSpeed: 2
-  waitDuration: 4
+  waitDuration: 2
   minX: -26
   maxX: 26
   minY: -8
   maxY: -2
-  sightRange: 8
+  sightRange: 3
 --- !u!61 &20025475
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -947,7 +949,7 @@ GameObject:
   - component: {fileID: 318274924}
   - component: {fileID: 318274925}
   - component: {fileID: 318274926}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Axe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1340,8 +1342,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 522330940}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.6, y: -0.2, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.5999985, y: -0.19999981, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1711,7 +1713,7 @@ GameObject:
   - component: {fileID: 718948638}
   - component: {fileID: 718948637}
   - component: {fileID: 718948639}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: AttackHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1813,7 +1815,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 886877648}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2197,8 +2199,8 @@ MonoBehaviour:
   minTimeBetweenBursts: 0.5
   maxTimeBetweenBursts: 1
   spawnRadius: 2
-  maxEnemiesInRadius: 10
-  timeBetweenWaves: 5
+  maxEnemiesInRadius: 5
+  timeBetweenWaves: 10
   maxWaves: 20
 --- !u!4 &1416234380
 Transform:
@@ -2355,7 +2357,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1459055725}
   - component: {fileID: 1459055724}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: PlayerVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2594,8 +2596,8 @@ MonoBehaviour:
   minTimeBetweenBursts: 0.5
   maxTimeBetweenBursts: 1
   spawnRadius: 2
-  maxEnemiesInRadius: 10
-  timeBetweenWaves: 5
+  maxEnemiesInRadius: 5
+  timeBetweenWaves: 10
   maxWaves: 20
 --- !u!4 &1543890754
 Transform:
