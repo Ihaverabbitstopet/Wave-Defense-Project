@@ -36,12 +36,21 @@ public class PlayerHealth : MonoBehaviour
         }
 
         currentHealth -= finalDamage;
+        currentHealth = Mathf.Max(currentHealth, 0); // Prevent below zero
         Debug.Log("Current Player HP: " + currentHealth);
 
         if (currentHealth <= 0)
         {
             Die();
         }
+    }
+
+    public void Heal(int amount)
+    {
+        if (amount <= 0) return;
+
+        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
+        Debug.Log("Player healed by " + amount + ". Current HP: " + currentHealth);
     }
 
     private void Die()
@@ -51,15 +60,8 @@ public class PlayerHealth : MonoBehaviour
         if (deathEffect)
             Instantiate(deathEffect, transform.position, Quaternion.identity);
 
-        // Disable the player object or trigger a Game Over screen
         gameObject.SetActive(false);
     }
 
     public int GetCurrentHealth() => currentHealth;
-
-    public void Heal(int amount)
-    {
-        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
-        Debug.Log("Player healed. HP: " + currentHealth);
-    }
 }

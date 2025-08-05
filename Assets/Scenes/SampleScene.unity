@@ -135,7 +135,6 @@ GameObject:
   - component: {fileID: 20025475}
   - component: {fileID: 20025474}
   - component: {fileID: 20025477}
-  - component: {fileID: 20025478}
   m_Layer: 0
   m_Name: Knight
   m_TagString: Enemy
@@ -152,7 +151,7 @@ Transform:
   m_GameObject: {fileID: 20025471}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -80, y: -4.74, z: 1}
+  m_LocalPosition: {x: -80, y: -4.74, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -173,17 +172,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knightVisual: {fileID: 1879475996}
-  dagger: {fileID: 522330941}
   animator: {fileID: 1879475997}
-  daggerAnimator: {fileID: 0}
   player: {fileID: 1570990000}
   moveSpeed: 2
-  waitDuration: 2
+  waitDuration: 5
   minX: -26
   maxX: 26
   minY: -8
   maxY: -2
-  sightRange: 3
+  sightRange: 4
 --- !u!61 &20025475
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -270,26 +267,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   defense: 0.2
---- !u!114 &20025478
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 20025471}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19a9a692ff12f49a9ba6a244692d7028, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackPoint: {fileID: 1335693217}
-  attackRange: 0.5
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  attackCooldown: 3
-  daggerAnimator: {fileID: 522330942}
-  weaponDamage: {fileID: 522330944}
 --- !u!1 &41602209
 GameObject:
   m_ObjectHideFlags: 0
@@ -1347,7 +1324,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1064229727}
   - {fileID: 1335693217}
   m_Father: {fileID: 20025473}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1433,14 +1409,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 522330940}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4f2c083485674180a0e7952cf6af505, type: 3}
+  m_Script: {fileID: 11500000, guid: 19a9a692ff12f49a9ba6a244692d7028, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitbox: {fileID: 1064229729}
-  damage: 15
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 8
+  daggerAnimator: {fileID: 522330942}
+  attackPoint: {fileID: 1335693217}
+  attackHitbox: {fileID: 1064229729}
+  attackCooldown: 3
 --- !u!1 &523674535
 GameObject:
   m_ObjectHideFlags: 0
@@ -1978,6 +1953,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1064229727}
   - component: {fileID: 1064229729}
+  - component: {fileID: 1064229730}
   m_Layer: 0
   m_Name: DaggerHitbox
   m_TagString: Untagged
@@ -1994,11 +1970,11 @@ Transform:
   m_GameObject: {fileID: 1064229726}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.2630844, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 522330941}
+  m_Father: {fileID: 1335693217}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1064229729
 BoxCollider2D:
@@ -2032,7 +2008,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.2384491, y: 0.49780464}
+  m_Offset: {x: 0.0871079, y: 0.20317042}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2043,8 +2019,21 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.48857117, y: 0.5014038}
+  m_Size: {x: 1.1275115, y: 1.6499064}
   m_EdgeRadius: 0
+--- !u!114 &1064229730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1064229726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4f2c083485674180a0e7952cf6af505, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
 --- !u!1 &1223518057
 GameObject:
   m_ObjectHideFlags: 3
@@ -2158,10 +2147,11 @@ Transform:
   m_GameObject: {fileID: 1335693216}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.7000015, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1064229727}
   m_Father: {fileID: 522330941}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1416234378
@@ -2628,8 +2618,9 @@ GameObject:
   - component: {fileID: 1570989997}
   - component: {fileID: 1570989996}
   - component: {fileID: 1570990001}
-  - component: {fileID: 1570990002}
-  m_Layer: 3
+  - component: {fileID: 1570990003}
+  - component: {fileID: 1570990004}
+  m_Layer: 0
   m_Name: Player - bob
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -2712,7 +2703,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.033516765, y: -0.4334091}
+  m_Offset: {x: 0.033516765, y: -0.46039516}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2723,7 +2714,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.8205645, y: 0.8231988}
+  m_Size: {x: 0.8205645, y: 0.7692267}
   m_EdgeRadius: 0
 --- !u!212 &1570989999
 SpriteRenderer:
@@ -2815,7 +2806,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1570990002
+--- !u!114 &1570990003
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2830,6 +2821,21 @@ MonoBehaviour:
   maxHealth: 100
   defensePercent: 20
   deathEffect: {fileID: 0}
+--- !u!114 &1570990004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570989995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daec1fb3b22fd401cbc002612eb637b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHealth: {fileID: 1570990003}
+  healAmount: 2
+  healInterval: 2
 --- !u!1 &1709681838
 GameObject:
   m_ObjectHideFlags: 0
