@@ -1399,7 +1399,7 @@ MonoBehaviour:
   spawnRadius: 2
   maxEnemiesInRadius: 5
   timeBetweenWaves: 10
-  maxWaves: 20
+  maxWaves: 5
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2825,16 +2825,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   archerVisual: {fileID: 1745089459}
-  animator: {fileID: 1879475997}
+  animator: {fileID: 1745089461}
   player: {fileID: 1570990000}
-  moveSpeed: 1
-  stoppingDistance: 8
-  waitDuration: 2
+  moveSpeed: 1.5
+  stoppingDistance: 7.5
+  waitDuration: 5
   minX: -26
   maxX: 26
   minY: -8
   maxY: -2
-  detectionRange: 12
+  detectionRange: 8
 --- !u!61 &1375780437
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2976,7 +2976,7 @@ MonoBehaviour:
   spawnRadius: 2
   maxEnemiesInRadius: 5
   timeBetweenWaves: 10
-  maxWaves: 20
+  maxWaves: 5
 --- !u!1 &1416234378
 GameObject:
   m_ObjectHideFlags: 0
@@ -3014,7 +3014,7 @@ MonoBehaviour:
   spawnRadius: 2
   maxEnemiesInRadius: 5
   timeBetweenWaves: 10
-  maxWaves: 20
+  maxWaves: 5
 --- !u!4 &1416234380
 Transform:
   m_ObjectHideFlags: 0
@@ -3411,7 +3411,7 @@ MonoBehaviour:
   spawnRadius: 2
   maxEnemiesInRadius: 5
   timeBetweenWaves: 10
-  maxWaves: 20
+  maxWaves: 5
 --- !u!4 &1543890754
 Transform:
   m_ObjectHideFlags: 0
@@ -3669,6 +3669,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1629842669}
   - component: {fileID: 1629842670}
+  - component: {fileID: 1629842671}
   m_Layer: 0
   m_Name: Bow
   m_TagString: Untagged
@@ -3743,6 +3744,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1629842671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629842668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8075e2528155f4a52b1a44f64c2d4283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1709681838
 GameObject:
   m_ObjectHideFlags: 0
