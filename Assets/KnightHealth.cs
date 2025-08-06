@@ -6,7 +6,7 @@ public class EnemyHealth : MonoBehaviour
 {
     [Header("Enemy Stats")]
     [SerializeField] private float maxHealth = 100f;
-    [SerializeField, Range(0f, 1f)] private float defense = 0.2f; // 20% reduction
+    [SerializeField, Range(0f, 1f)] private float defense = 0.2f;
 
     private float currentHealth;
 
@@ -20,17 +20,23 @@ public class EnemyHealth : MonoBehaviour
         float damageTaken = ignoreDefense ? rawDamage : rawDamage * (1f - defense);
         currentHealth -= damageTaken;
 
-        Debug.Log($"{gameObject.name} took {damageTaken} damage! HP left: {currentHealth}");
-
         if (currentHealth <= 0)
         {
             Die();
         }
     }
 
+    public void Heal(float amount)
+    {
+        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
+    }
+
+    public float GetCurrentHealth() => currentHealth;
+
+    public float GetMaxHealth() => maxHealth;
+
     private void Die()
     {
-        Debug.Log($"{gameObject.name} died!");
         Destroy(gameObject);
     }
 }

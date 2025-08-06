@@ -67,6 +67,6 @@ public class KnightAttack : MonoBehaviour
             return;
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPoint.position, 0.5f);
+        Gizmos.DrawWireSphere(attackPoint.position, 1.25f);
     }
 }
