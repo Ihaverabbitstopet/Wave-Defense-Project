@@ -7,23 +7,20 @@ public class ArcherMovement : MonoBehaviour
     public enum ArcherState { Patrolling, Waiting, Approaching, Attacking }
 
     [Header("References")]
-    [SerializeField] private Transform archerVisual;
-    [SerializeField] private Animator animator;
-    [SerializeField] private Transform player;
+    public Transform player;
+    public Animator animator;
 
     [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed = 2f;
-    [SerializeField] private float stoppingDistance = 3f;
+    public float moveSpeed = 2f;
+    public float stopDistance = 8f;       // Distance to stop before attacking
+    public float sightRange = 15f;
 
     [Header("Patrol Settings")]
-    [SerializeField] private float waitDuration = 2f;
-    [SerializeField] private float minX = -26f;
-    [SerializeField] private float maxX = 26f;
-    [SerializeField] private float minY = -8f;
-    [SerializeField] private float maxY = -2f;
-
-    [Header("Detection Settings")]
-    [SerializeField] private float detectionRange = 10f;
+    public float waitDuration = 2f;
+    public float minX = -26f;
+    public float maxX = 26f;
+    public float minY = -8f;
+    public float maxY = -2f;
 
     private Rigidbody2D rb;
     private ArcherState currentState = ArcherState.Patrolling;
@@ -33,14 +30,6 @@ public class ArcherMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-
-        if (archerVisual == null)
-            Debug.LogWarning("ArcherVisual reference not set!");
-        if (animator == null)
-            Debug.LogWarning("Animator reference not set!");
-        if (player == null)
-            Debug.LogWarning("Player reference not set!");
-
         PickNewRandomPatrolPoint();
     }
 
@@ -50,21 +39,21 @@ public class ArcherMovement : MonoBehaviour
         {
             case ArcherState.Patrolling:
                 Patrol();
-                DetectPlayer();
+                CheckForPlayer();
                 break;
 
             case ArcherState.Waiting:
                 WaitAtPoint();
-                DetectPlayer();
+                CheckForPlayer();
                 break;
 
             case ArcherState.Approaching:
                 ApproachPlayer();
-                CheckStopDistance();
                 break;
 
             case ArcherState.Attacking:
-                HandleAttackingState();
+                AnimateAndFlip(Vector2.zero);
+                // ArcherAttack script should handle attacking independently
                 break;
         }
     }
@@ -74,15 +63,13 @@ public class ArcherMovement : MonoBehaviour
         Vector2 direction = (targetPoint - rb.position).normalized;
         Vector2 newPosition = Vector2.MoveTowards(rb.position, targetPoint, moveSpeed * Time.fixedDeltaTime);
         rb.MovePosition(newPosition);
-
         AnimateAndFlip(direction);
-        animator.SetFloat("Speed", moveSpeed);
 
         if (Vector2.Distance(rb.position, targetPoint) < 0.1f)
         {
             currentState = ArcherState.Waiting;
             waitTimer = waitDuration;
-            animator.SetFloat("Speed", 0f); // Idle
+            animator.SetFloat("Speed", 0f);
         }
     }
 
@@ -96,12 +83,19 @@ public class ArcherMovement : MonoBehaviour
         }
     }
 
-    private void DetectPlayer()
+    private void PickNewRandomPatrolPoint()
+    {
+        float x = Random.Range(minX, maxX);
+        float y = Random.Range(minY, maxY);
+        targetPoint = new Vector2(x, y);
+    }
+
+    private void CheckForPlayer()
     {
         if (player == null) return;
 
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        if (distanceToPlayer <= detectionRange)
+        if (distanceToPlayer <= sightRange)
         {
             currentState = ArcherState.Approaching;
         }
@@ -111,81 +105,34 @@ public class ArcherMovement : MonoBehaviour
     {
         if (player == null) return;
 
-        float distance = Vector2.Distance(rb.position, player.position);
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-        if (distance > stoppingDistance)
+        if (distanceToPlayer > stopDistance)
         {
             Vector2 direction = (player.position - transform.position).normalized;
             Vector2 newPosition = Vector2.MoveTowards(rb.position, player.position, moveSpeed * Time.fixedDeltaTime);
             rb.MovePosition(newPosition);
             AnimateAndFlip(direction);
-            animator.SetFloat("Speed", moveSpeed); // Walking
         }
         else
         {
             currentState = ArcherState.Attacking;
-            animator.SetFloat("Speed", 0f); // Idle
-            AnimateAndFlip(player.position - transform.position);
-        }
-    }
-
-    private void CheckStopDistance()
-    {
-        if (player == null) return;
-
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        if (distanceToPlayer > detectionRange * 1.5f)
-        {
-            PickNewRandomPatrolPoint();
-            currentState = ArcherState.Patrolling;
-        }
-    }
-
-    private void HandleAttackingState()
-    {
-        if (player == null) return;
-
-        float distance = Vector2.Distance(transform.position, player.position);
-
-        if (distance > detectionRange * 1.5f)
-        {
-            PickNewRandomPatrolPoint();
-            currentState = ArcherState.Patrolling;
-        }
-        else if (distance > stoppingDistance)
-        {
-            currentState = ArcherState.Approaching;
-        }
-        else
-        {
-            // Still in range — just idle + face player
-            animator.SetFloat("Speed", 0f);
-            AnimateAndFlip(player.position - transform.position);
         }
     }
 
     private void AnimateAndFlip(Vector2 direction)
     {
-        if (archerVisual == null) return;
+        if (animator != null)
+        {
+            float moveAmount = direction.magnitude;
+            animator.SetFloat("Speed", moveAmount);
+        }
 
         if (Mathf.Abs(direction.x) > 0.01f)
         {
-            Vector3 scale = archerVisual.localScale;
+            Vector3 scale = transform.localScale;
             scale.x = direction.x > 0 ? 1 : -1;
-            archerVisual.localScale = scale;
+            transform.localScale = scale;
         }
     }
-
-    private void PickNewRandomPatrolPoint()
-    {
-        float x = Random.Range(minX, maxX);
-        float y = Random.Range(minY, maxY);
-        targetPoint = new Vector2(x, y);
-    }
-
-    // Optional setters
-    public void SetMoveSpeed(float speed) => moveSpeed = speed;
-    public void SetStoppingDistance(float distance) => stoppingDistance = distance;
-    public void SetDetectionRange(float range) => detectionRange = range;
 }
-
