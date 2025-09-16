@@ -22,25 +22,25 @@ AnimationClip:
     curve:
     - time: 0.083333336
       value: {fileID: 21300000, guid: 7cb0415608b034d98a85017ad610f390, type: 3}
-    - time: 0.16666667
+    - time: 0.15
       value: {fileID: 21300000, guid: a8a15430aebb44dd8b4a63aab614de5a, type: 3}
-    - time: 0.25
+    - time: 0.21666667
       value: {fileID: 21300000, guid: bc6bf215c84954a65b8c0cefb6707d52, type: 3}
-    - time: 0.41666666
+    - time: 0.35
       value: {fileID: 21300000, guid: 088bff01be9cb4a8ebd2e073e6a50a49, type: 3}
-    - time: 0.5833333
+    - time: 0.43333334
       value: {fileID: 21300000, guid: b6cd63802c61b44d18655d0fc052287e, type: 3}
-    - time: 0.75
+    - time: 0.53333336
       value: {fileID: 21300000, guid: ca4b40fec8b834ee99087336f9221790, type: 3}
-    - time: 0.8333333
+    - time: 0.6666667
       value: {fileID: 21300000, guid: 9ae5bda9c8a6f4cd9a2dea8ba9c004c3, type: 3}
-    - time: 1.0833334
+    - time: 0.76666665
       value: {fileID: 21300000, guid: 1683a14365e3c494299d4d1c02a18152, type: 3}
-    - time: 1.25
+    - time: 0.85
       value: {fileID: 21300000, guid: 82e4b739b87e84f65b70277f36bd913a, type: 3}
-    - time: 1.4166666
+    - time: 0.96666664
       value: {fileID: 21300000, guid: 05d3cefa2b3bf43f2be62b09c6631571, type: 3}
-    - time: 1.5833334
+    - time: 1.0833334
       value: {fileID: 21300000, guid: 05d3cefa2b3bf43f2be62b09c6631571, type: 3}
     attribute: m_Sprite
     path: 
@@ -80,7 +80,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.6
+    m_StopTime: 1.1
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -100,14 +100,14 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.75
+  - time: 0.53333336
     functionName: EnableHitbox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.85
+  - time: 0.6166667
     functionName: DisableHitbox
     data: 
     objectReferenceParameter: {fileID: 0}

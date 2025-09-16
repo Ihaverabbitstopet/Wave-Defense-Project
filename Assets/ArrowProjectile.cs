@@ -4,37 +4,44 @@ using UnityEngine;
 
 public class ArrowProjectile : MonoBehaviour
 {
+    [Header("Arrow Settings")]
     [SerializeField] private float speed = 10f;
     [SerializeField] private float lifetime = 5f;
-    [SerializeField] private int damage = 10;
 
     private Vector2 direction;
+    private int damage;
 
-    public void Initialize(Vector2 shootDirection)
+    public void Initialize(Vector2 dir, int dmg)
     {
-        direction = shootDirection.normalized;
+        direction = dir.normalized;
+        damage = dmg;
 
-        // Rotate arrow to face its movement direction
+        // Rotate arrow to face direction
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, 0f, angle);  // Adjust if needed for your sprite orientation
+        transform.rotation = Quaternion.Euler(0, 0, angle);
 
         Destroy(gameObject, lifetime);
     }
 
     private void Update()
     {
-        transform.Translate(direction * speed * Time.deltaTime, Space.World);
+        transform.position += (Vector3)(direction * speed * Time.deltaTime);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        PlayerHealth player = other.GetComponent<PlayerHealth>();
-        if (player != null)
+        // Only interact with the Player
+        PlayerHealth playerHealth = collision.GetComponent<PlayerHealth>();
+        if (playerHealth != null)
         {
-            player.TakeDamage(damage);
+            playerHealth.TakeDamage(damage);
+            Debug.Log($"Arrow hit Player for {damage} damage!");
             Destroy(gameObject);
         }
-
-        // You can add more conditions here if needed (e.g., destroy on wall hit)
+        else if (!collision.isTrigger) // Prevent sticking to triggers
+        {
+            // Arrow hits a wall or object
+            Destroy(gameObject);
+        }
     }
 }

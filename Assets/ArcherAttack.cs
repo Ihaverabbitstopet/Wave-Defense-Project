@@ -4,25 +4,24 @@ using UnityEngine;
 
 public class ArcherAttack : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private GameObject arrowPrefab;
-    [SerializeField] private Transform firePoint;
-	[SerializeField] private Animator archerAnimator;
+    [SerializeField] private Transform firePoint; // where arrows spawn
+    [SerializeField] private Animator archerAnimator; // Animator on ArcherVisual
+
+    [Header("Attack Settings")]
     [SerializeField] private float attackCooldown = 1.5f;
+    [SerializeField] private float attackRange = 15f;
+    [SerializeField] private int arrowDamage = 10;
 
     private float lastAttackTime;
     private Transform player;
-    private Transform archerVisual;
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         if (player == null)
             Debug.LogWarning("Player not found. Make sure the Player has the tag 'Player'.");
-
-        // Assumes this script is on the Bow → child of ArcherVisual
-        archerVisual = transform.root.Find("ArcherVisual");
-        if (archerVisual == null)
-            Debug.LogWarning("ArcherVisual not found under root.");
     }
 
     private void Update()
@@ -30,24 +29,31 @@ public class ArcherAttack : MonoBehaviour
         if (player == null) return;
 
         float distance = Vector2.Distance(transform.position, player.position);
-        if (distance < 8f && Time.time - lastAttackTime >= attackCooldown)
+
+        // Attack only if in range and cooldown is ready
+        if (distance <= attackRange && Time.time - lastAttackTime >= attackCooldown)
         {
             lastAttackTime = Time.time;
-			if (archerAnimator != null)
-                archerAnimator.SetTrigger("Shoot"); // Trigger BowShot animation
-            Attack();
+
+            if (archerAnimator != null)
+                archerAnimator.SetTrigger("Shoot"); // Play BowShot animation
         }
     }
 
-    private void Attack()
+    // 🔔 Called via Animation Event in BowShot animation
+    public void FireArrow()
     {
+        if (player == null || arrowPrefab == null || firePoint == null) return;
+
         Vector2 direction = (player.position - firePoint.position).normalized;
 
-        // Flip the arrow's direction if ArcherVisual is flipped (scale.x = -1)
-        float flipX = Mathf.Sign(archerVisual.localScale.x);
-        direction = new Vector2(direction.x * flipX, direction.y);
-
         GameObject arrow = Instantiate(arrowPrefab, firePoint.position, Quaternion.identity);
-        arrow.GetComponent<ArrowProjectile>().Initialize(direction);
+
+        // Initialize arrow with direction + damage
+        ArrowProjectile arrowProjectile = arrow.GetComponent<ArrowProjectile>();
+        if (arrowProjectile != null)
+        {
+            arrowProjectile.Initialize(direction, arrowDamage);
+        }
     }
 }

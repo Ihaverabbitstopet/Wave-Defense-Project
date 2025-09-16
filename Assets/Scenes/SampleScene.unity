@@ -1261,9 +1261,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60adf08164d224e11abdbf8d88308b94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 8
+  speed: 16
   lifetime: 1.5
-  damage: 7
 --- !u!212 &355635015
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1566,14 +1565,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 1375780435}
-  minEnemiesPerBurst: 3
-  maxEnemiesPerBurst: 5
+  minEnemiesPerBurst: 1
+  maxEnemiesPerBurst: 2
   minTimeBetweenBursts: 0.5
   maxTimeBetweenBursts: 1
   spawnRadius: 2
   maxEnemiesInRadius: 5
   timeBetweenWaves: 10
-  maxWaves: 5
+  maxWaves: 20
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1824,7 +1823,7 @@ MonoBehaviour:
   daggerAnimator: {fileID: 522330942}
   attackPoint: {fileID: 1335693217}
   attackHitbox: {fileID: 1064229729}
-  attackCooldown: 3
+  attackCooldown: 1.5
 --- !u!1 &523674535
 GameObject:
   m_ObjectHideFlags: 0
@@ -2846,7 +2845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4f2c083485674180a0e7952cf6af505, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 12
+  damage: 15
 --- !u!1 &1106910889
 GameObject:
   m_ObjectHideFlags: 0
@@ -3471,14 +3470,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 1375780435}
-  minEnemiesPerBurst: 3
-  maxEnemiesPerBurst: 5
+  minEnemiesPerBurst: 1
+  maxEnemiesPerBurst: 2
   minTimeBetweenBursts: 0.5
   maxTimeBetweenBursts: 1
   spawnRadius: 2
-  maxEnemiesInRadius: 5
+  maxEnemiesInRadius: 10
   timeBetweenWaves: 10
-  maxWaves: 5
+  maxWaves: 20
 --- !u!1 &1416234378
 GameObject:
   m_ObjectHideFlags: 0
@@ -3509,14 +3508,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 20025471}
-  minEnemiesPerBurst: 3
-  maxEnemiesPerBurst: 5
+  minEnemiesPerBurst: 2
+  maxEnemiesPerBurst: 3
   minTimeBetweenBursts: 0.5
   maxTimeBetweenBursts: 1
   spawnRadius: 2
-  maxEnemiesInRadius: 5
+  maxEnemiesInRadius: 10
   timeBetweenWaves: 10
-  maxWaves: 5
+  maxWaves: 20
 --- !u!4 &1416234380
 Transform:
   m_ObjectHideFlags: 0
@@ -3906,14 +3905,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 20025471}
-  minEnemiesPerBurst: 3
-  maxEnemiesPerBurst: 5
+  minEnemiesPerBurst: 2
+  maxEnemiesPerBurst: 3
   minTimeBetweenBursts: 0.5
   maxTimeBetweenBursts: 1
   spawnRadius: 2
-  maxEnemiesInRadius: 5
+  maxEnemiesInRadius: 10
   timeBetweenWaves: 10
-  maxWaves: 5
+  maxWaves: 20
 --- !u!4 &1543890754
 Transform:
   m_ObjectHideFlags: 0
@@ -4265,6 +4264,8 @@ MonoBehaviour:
   firePoint: {fileID: 1238242289}
   archerAnimator: {fileID: 1629842672}
   attackCooldown: 3.2
+  attackRange: 15
+  arrowDamage: 10
 --- !u!95 &1629842672
 Animator:
   serializedVersion: 5
