@@ -3964,6 +3964,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  dashSpeed: 15
+  dashDuration: 0.2
+  dashCooldown: 1
   playerVisual: {fileID: 1459055722}
   playerAnimator: {fileID: 1570990001}
   axeAnimator: {fileID: 318274925}

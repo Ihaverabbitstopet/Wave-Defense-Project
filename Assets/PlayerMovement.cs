@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +9,11 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 5f;
+
+    [Header("Dash Settings")]
+    [SerializeField] private float dashSpeed = 15f;
+    [SerializeField] private float dashDuration = 0.2f;
+    [SerializeField] private float dashCooldown = 1f;
 
     [Header("References")]
     [SerializeField] private GameObject playerVisual;
@@ -20,17 +27,26 @@ public class PlayerMovement : MonoBehaviour
     private Camera mainCamera;
     private PlayerControls controls;
 
+    private bool isDashing = false;
+    private float dashTimeLeft = 0f;
+    private float lastDashTime = -Mathf.Infinity;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         mainCamera = Camera.main;
 
-        // Set up the new Input System
         controls = new PlayerControls();
+
+        // Movement
         controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
 
+        // Attack
         controls.Player.Attack.performed += ctx => Attack();
+
+        // Dash
+        controls.Player.Dash.performed += ctx => TryDash();
     }
 
     private void OnEnable()
@@ -51,7 +67,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.velocity = moveInput * moveSpeed;
+        if (isDashing)
+        {
+            rb.velocity = moveInput.normalized * dashSpeed;
+            dashTimeLeft -= Time.fixedDeltaTime;
+
+            if (dashTimeLeft <= 0f)
+            {
+                isDashing = false;
+            }
+        }
+        else
+        {
+            rb.velocity = moveInput * moveSpeed;
+        }
     }
 
     private void HandleFlip()
@@ -77,7 +106,19 @@ public class PlayerMovement : MonoBehaviour
             axeAnimator.SetTrigger("Swing");
         }
 
-        // Optional: activate attack hitbox here if needed
-        // e.g., attackHitbox.SetActive(true);
+        // Optional: activate attack hitbox here
+        // attackHitbox.SetActive(true);
+    }
+
+    private void TryDash()
+    {
+        if (Time.time >= lastDashTime + dashCooldown && moveInput != Vector2.zero)
+        {
+            isDashing = true;
+            dashTimeLeft = dashDuration;
+            lastDashTime = Time.time;
+
+            Debug.Log("Player dashed!");
+        }
     }
 }
